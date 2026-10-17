@@ -16,7 +16,7 @@
 
 <br/>
 
-[**Download Release v1.0.0 (Portable ZIP)**](https://github.com) · [**Architecture & Benchmarks**](#benchmarks) · [**Quick Start**](#quick-start) · [**License**](#license)
+[**Download Release v1.0.0 (Portable ZIP)**](https://github.com/MABA-Studios321/Affan-AI-Engine-2-Mini/releases/latest) · [**Architecture & Benchmarks**](#benchmarks) · [**Quick Start**](#quick-start) · [**License**](#license)
 
 </div>
 
@@ -107,7 +107,7 @@ By constraining neural weights to pure ternary states $\{-1, 0, +1\}$ packed at 
 
 ## 📦 Quick Start (Portable & Zero-Install)
 
-1. Download [`Affan_AI_Engine_2_Mini.zip`](https://github.com) from the **Releases** tab.
+1. Download [`Affan_AI_Engine_2_Mini.zip`](https://github.com/MABA-Studios321/Affan-AI-Engine-2-Mini/releases/latest/download/Affan_AI_Engine_2_Mini.zip) from the **Releases** tab.
 2. Extract the archive:
    ```text
    Affan AI Engine 2 Mini/
