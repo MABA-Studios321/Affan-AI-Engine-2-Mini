@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Affan AI Engine 2 Mini](ui/logo.png)
+<img src="logo.png" width="96" alt="Affan AI Engine 2 Mini" />
 
 ### Ultra-Fast, Zero-Dependency 1.58-Bit Ternary LLM & Native Inference Engine
 **Engineered by Muhammad Affan Bin Adnan · MABA Studios**
