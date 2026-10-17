@@ -16,7 +16,7 @@
 
 <br/>
 
-[**Download Release v1.0.0 (Portable ZIP)**](https://github.com/MABA-Studios321/Affan-AI-Engine-2-Mini/releases/latest) · [**Architecture & Benchmarks**](#benchmarks) · [**Quick Start**](#quick-start) · [**License**](#license)
+[**⚡ Download Affan AI Engine 2 Mini (Portable ZIP - 219 MB)**](https://github.com/MABA-Studios321/Affan-AI-Engine-2-Mini/releases/latest/download/Affan_AI_Engine_2_Mini.zip) · [**Architecture & Benchmarks**](#benchmarks) · [**Quick Start**](#quick-start) · [**License**](#license)
 
 </div>
 
