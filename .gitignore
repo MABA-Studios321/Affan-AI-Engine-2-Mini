@@ -1,0 +1,37 @@
+# Git Ignore for Affan AI Engine 2 Mini
+
+# Build directories & intermediate objects
+build/
+*.obj
+*.exp
+*.lib
+*.ilk
+*.pdb
+*.cso
+*.ptx
+
+# Exclude large binary ZIP from Git tracking (upload this to GitHub Releases tab instead)
+Affan_AI_Engine_2_Mini.zip
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Android temporary build caches
+mobile_app/.gradle/
+mobile_app/build/
+mobile_app/app/build/
+mobile_app/local.properties
+mobile_app/.cxx/
+
+# VS / IDE caches
+.vs/
+.vscode/
+*.user
+
+# Large binary distribution files (hosted on GitHub Releases)
+*.affa
+*.apk
+*.apk.idsig
+mobile_app/build_tmp/
+

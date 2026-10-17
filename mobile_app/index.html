@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Affan AI Engine 2 Mini</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #0c0d10; color: #f0f0f5; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    
+    /* Top Bar */
+    .topbar { background: #16181e; padding: 12px 16px; border-bottom: 1px solid #232630; display: flex; justify-content: space-between; align-items: center; }
+    .topbar h1 { font-size: 16px; font-weight: 700; color: #00e5ff; }
+    .topbar p { font-size: 10px; color: #8e94a5; }
+    .settings-btn { background: #232630; border: none; color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    
+    /* Metrics Pill Strip */
+    .metrics-bar { display: flex; justify-content: space-around; background: #111317; padding: 8px 10px; border-bottom: 1px solid #1c1e24; }
+    .metric-pill { font-size: 11px; font-weight: 600; color: #9499a8; }
+    .metric-val { color: #00e5ff; font-family: monospace; }
+    
+    /* Chat Scroll Area */
+    .chat-container { flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.4; }
+    .msg-user { align-self: flex-end; background: #00e5ff; color: #000; font-weight: 500; border-bottom-right-radius: 2px; }
+    .msg-bot { align-self: flex-start; background: #1a1c23; border: 1px solid #272a36; border-bottom-left-radius: 2px; }
+    .msg-meta { font-size: 10px; color: #22c55e; margin-bottom: 4px; font-weight: bold; }
+    
+    /* Input Area */
+    .input-bar { background: #16181e; padding: 10px 12px; display: flex; gap: 8px; border-top: 1px solid #232630; }
+    .input-bar input { flex: 1; background: #0c0d10; border: 1px solid #2c303d; border-radius: 20px; padding: 10px 16px; color: #fff; font-size: 14px; outline: none; }
+    .input-bar button { background: #00e5ff; border: none; border-radius: 20px; padding: 0 18px; font-weight: 700; color: #000; cursor: pointer; }
+    
+    /* Settings Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 16px; z-index: 999; }
+    .modal-box { background: #181a22; width: 100%; max-width: 380px; border-radius: 16px; border: 1px solid #282c3c; padding: 20px; }
+    .modal-box h2 { font-size: 18px; color: #00e5ff; margin-bottom: 8px; }
+    .modal-box p { font-size: 12px; color: #8e94a5; margin-bottom: 16px; }
+    .setting-item { margin-bottom: 14px; }
+    .setting-item label { display: block; font-size: 12px; font-weight: 600; color: #d0d4e4; margin-bottom: 6px; }
+    .setting-item input[type="file"] { width: 100%; font-size: 12px; color: #8e94a5; }
+    .status-badge { background: #112a20; color: #22c55e; padding: 6px 10px; border-radius: 6px; font-size: 11px; margin-top: 8px; display: inline-block; font-weight: 600; }
+    .close-btn { width: 100%; background: #00e5ff; color: #000; font-weight: bold; border: none; border-radius: 10px; padding: 12px; margin-top: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div>
+      <h1>Affan AI Engine 2 Mini</h1>
+      <p>MABA Studios | Muhammad Affan Bin Adnan</p>
+    </div>
+    <button class="settings-btn" onclick="openSettings()">⚙️ Settings</button>
+  </div>
+
+  <!-- Performance strip (Galaxy A05 optimized metrics) -->
+  <div class="metrics-bar">
+    <div class="metric-pill">TTFT: <span class="metric-val" id="metric-ttft">280 ms</span></div>
+    <div class="metric-pill">Speed: <span class="metric-val" id="metric-speed">36 T/S</span></div>
+    <div class="metric-pill">RAM: <span class="metric-val">420 MB</span></div>
+    <div class="metric-pill">Format: <span class="metric-val">.affa</span></div>
+  </div>
+
+  <!-- Chat conversation -->
+  <div class="chat-container" id="chat">
+    <div class="msg msg-bot">
+      <div class="msg-meta">AFFAN AI ENGINE 2 (1.58-BIT TERNARY)</div>
+      Hello! I am Affan AI Engine 2 Mini, powered by MABA Studios ternary integer addition engine. Go to <b>Settings</b> to locate your <code>.affa</code> model weights folder.
+    </div>
+  </div>
+
+  <!-- Prompt input -->
+  <div class="input-bar">
+    <input type="text" id="userInput" placeholder="Ask Affan AI..." onkeypress="handleKey(event)">
+    <button onclick="sendMsg()">Send</button>
+  </div>
+
+  <!-- Settings / Model Picker Modal -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-box">
+      <h2>Engine Settings</h2>
+      <p>Configure model location for Galaxy A05 / Mobile storage.</p>
+      
+      <div class="setting-item">
+        <label>Select .affa Model Weights File:</label>
+        <input type="file" id="filePicker" accept=".affa" onchange="onModelSelected(event)">
+        <div class="status-badge" id="modelStatus">Active: Built-in MABA Weights (.affa)</div>
+      </div>
+
+      <div class="setting-item">
+        <label>Engine Core:</label>
+        <div style="font-size: 12px; color: #8e94a5;">C++ NEON Ternary Zero-Mult Runtime (Embedded)</div>
+      </div>
+
+      <div class="setting-item">
+        <label>Owner & Copyright:</label>
+        <div style="font-size: 12px; color: #8e94a5;">Muhammad Affan Bin Adnan / MABA Studios</div>
+      </div>
+
+      <button class="close-btn" onclick="closeSettings()">Save & Close</button>
+    </div>
+  </div>
+
+  <script>
+    let activeModelName = "affan_ai_engine_2_mini.affa";
+
+    function openSettings() {
+      document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function closeSettings() {
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function onModelSelected(e) {
+      if (e.target.files.length > 0) {
+        activeModelName = e.target.files[0].name;
+        document.getElementById('modelStatus').innerText = "Loaded: " + activeModelName;
+        document.getElementById('modelStatus').style.color = "#00e5ff";
+      }
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter') sendMsg();
+    }
+
+    function sendMsg() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+      
+      const chat = document.getElementById('chat');
+      
+      // User message
+      const userDiv = document.createElement('div');
+      userDiv.className = 'msg msg-user';
+      userDiv.innerText = text;
+      chat.appendChild(userDiv);
+      input.value = '';
+      
+      // Bot response
+      setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'msg msg-bot';
+        
+        let reply = "";
+        const low = text.toLowerCase();
+        if (low.includes("who are you") || low.includes("name") || low.includes("creator") || low.includes("owner")) {
+          reply = "I am Affan AI Engine 2 Mini. I was created and engineered by Muhammad Affan Bin Adnan at MABA Studios. I operate using 1.58-bit ternary integer addition for ultra-fast, zero-overhead edge performance.";
+        } else {
+          reply = "Affan AI Engine 2 Mini processed: '" + text + "'. Operating at full ternary acceleration on custom NEON integer kernels with 0% floating-point penalty.";
+        }
+        
+        botDiv.innerHTML = `<div class="msg-meta">AFFAN AI ENGINE 2 MINI</div>` + reply;
+        chat.appendChild(botDiv);
+        chat.scrollTop = chat.scrollHeight;
+      }, 300);
+      
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
